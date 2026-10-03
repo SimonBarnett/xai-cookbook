@@ -80,6 +80,21 @@
     return fallback;
   }
 
+  /** Escape text for safe interpolation into HTML attribute/text contexts. */
+  function escapeHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function safePosition(v) {
+    var p = String(v == null ? "" : v).toLowerCase();
+    return p === "left" || p === "right" ? p : DEFAULTS.position;
+  }
+
   function parseScriptConfig(scriptEl) {
     if (!scriptEl || !scriptEl.getAttribute) return Object.assign({}, DEFAULTS);
     function attr(name) {
@@ -94,7 +109,7 @@
       instructions: attr("data-instructions") || DEFAULTS.instructions,
       greeting: attr("data-greeting") || DEFAULTS.greeting,
       color: attr("data-color") || DEFAULTS.color,
-      position: (attr("data-position") || DEFAULTS.position).toLowerCase(),
+      position: safePosition(attr("data-position") || DEFAULTS.position),
       label: attr("data-label") || DEFAULTS.label,
       transcript: truthy(attr("data-transcript"), DEFAULTS.transcript),
       textFallback: truthy(attr("data-text-fallback"), DEFAULTS.textFallback),
@@ -223,19 +238,21 @@
 
     var rootEl = document.createElement("div");
     rootEl.id = "grok-voice-root";
+    var safeLabel = escapeHtml(cfg.label);
+    var safePos = safePosition(cfg.position);
     rootEl.innerHTML =
       '<button id="grok-voice-fab" class="' +
-      cfg.position +
+      safePos +
       '" type="button" aria-label="' +
-      cfg.label +
+      safeLabel +
       '" title="' +
-      cfg.label +
+      safeLabel +
       '">🎤</button>' +
       '<div id="grok-voice-panel" class="' +
-      cfg.position +
+      safePos +
       '" role="dialog" aria-label="Grok voice assistant">' +
       "<h2>" +
-      cfg.label +
+      safeLabel +
       "</h2>" +
       '<div id="grok-voice-status">Idle</div>' +
       '<div id="grok-voice-controls">' +
@@ -653,6 +670,8 @@
       buildRealtimeUrl: buildRealtimeUrl,
       clientSecretProtocol: clientSecretProtocol,
       downsample: downsample,
+      escapeHtml: escapeHtml,
+      safePosition: safePosition,
     },
   };
 

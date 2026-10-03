@@ -141,6 +141,16 @@ describe("audio helpers", () => {
       "xai-client-secret.tok_abc"
     );
   });
+
+  it("escapeHtml and safePosition harden data-* shell interpolation", () => {
+    assert.equal(
+      internals.escapeHtml(`"><img src=x onerror=alert(1)>`),
+      "&quot;&gt;&lt;img src=x onerror=alert(1)&gt;"
+    );
+    assert.equal(internals.safePosition("left"), "left");
+    assert.equal(internals.safePosition("RIGHT"), "right");
+    assert.equal(internals.safePosition(`"><b>`), internals.DEFAULTS.position);
+  });
 });
 
 describe("session token server (mocked upstream)", () => {
