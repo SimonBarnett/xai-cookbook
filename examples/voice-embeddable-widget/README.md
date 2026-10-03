@@ -2,9 +2,9 @@
 
 > **Example only.** Harden before production (auth on `/session`, rate limits, CSP, HTTPS).
 
-A **single-file, zero-dependency** Speech-to-Speech widget you can drop onto any website with one `<script>` tag — no React, no build step, no bundler.
+A **single-file, zero-dependency** Speech-to-Speech widget you can drop onto any website with one `<script>` tag â€” no React, no build step, no bundler.
 
-Compared with [`examples/voice-agent-web`](https://github.com/xai-org/xai-cookbook/tree/main/examples/voice-agent-web) (full React client + FastAPI/Express backends), this path is for “paste a script tag and talk.”
+Compared with [`examples/voice-agent-web`](https://github.com/xai-org/xai-cookbook/tree/main/examples/voice-agent-web) (full React client + FastAPI/Express backends), this path is for â€œpaste a script tag and talk.â€
 
 ## Quick start
 
@@ -15,7 +15,7 @@ node session-token-server.mjs        # or: python session-token-server.py
 
 # 2) Serve this folder over localhost (mic needs a secure context)
 #    e.g. python -m http.server 5500
-# 3) Open http://127.0.0.1:5500/demo.html → floating mic → Start
+# 3) Open http://127.0.0.1:5500/demo.html â†’ floating mic â†’ Start
 ```
 
 ### Drop-in sketch
@@ -51,7 +51,7 @@ Or call from your own JS:
 |-------|----------|
 | Floating button | Customizable position / color / label |
 | Voice panel | Start, mute, end-call, optional live transcript |
-| Mic capture | Web Audio API → PCM16 mono @ **24 kHz** (API default) |
+| Mic capture | Web Audio API â†’ PCM16 mono @ **24 kHz** (API default) |
 | Turn-taking | `server_vad` (no manual commit required) |
 | Playback | `response.output_audio.delta` (and `response.audio.delta`) |
 | Text fallback | Optional `data-text-fallback="true"` for users without a mic |
@@ -75,13 +75,13 @@ new WebSocket(
 
 Shipped companions (stdlib / zero npm deps):
 
-- `session-token-server.mjs` — Node 18+
-- `session-token-server.py` — Python 3.8+
+- `session-token-server.mjs` â€” Node 18+
+- `session-token-server.py` â€” Python 3.8+
 
 Both expose:
 
-- `GET /health` → `{ ok: true }`
-- `POST /session` → `{ value, expires_at }`
+- `GET /health` â†’ `{ ok: true }`
+- `POST /session` â†’ `{ value, expires_at }`
 
 ### 2. Hosted proxy mode (optional)
 
@@ -101,9 +101,9 @@ A full proxy implementation lives in the upstream web-agent backends; this examp
 
 | Attribute | Default | Meaning |
 |-----------|---------|---------|
-| `data-token-endpoint` | — | URL that returns `{ value }` (ephemeral mode) |
+| `data-token-endpoint` | â€” | URL that returns `{ value }` (ephemeral mode) |
 | `data-mode` | `ephemeral` | `ephemeral` or `proxy` |
-| `data-ws-url` | — | WebSocket URL when `data-mode="proxy"` |
+| `data-ws-url` | â€” | WebSocket URL when `data-mode="proxy"` |
 | `data-model` | `grok-voice-latest` | Realtime model query param |
 | `data-voice` | `eve` | Built-in or custom voice id |
 | `data-instructions` | short spoken assistant | System prompt |
@@ -119,14 +119,16 @@ A full proxy implementation lives in the upstream web-agent backends; this examp
 
 Open questions from the FR, answered here:
 
-- **Format:** PCM16 mono @ **24 kHz** (API default). The widget downsamples from the browser’s native rate when needed.
+- **Format:** PCM16 mono @ **24 kHz** (API default). The widget downsamples from the browserâ€™s native rate when needed.
 - **Text fallback:** supported via `data-text-fallback="true"`.
 - **Hosted mint:** documenting the ephemeral flow + the tiny companion servers in this folder is enough for the cookbook; a SaaS mint endpoint is out of scope.
 
 ## Tests
 
-```bash
-# from this directory — use Node 18+ (Node 22 shown)
+UAT-verified: `node --test tests/widget.test.mjs` → **13 passed** (Node 22).
+
+`ash
+# from this directory â€” use Node 18+ (Node 22 shown)
 /path/to/node22 --test tests/widget.test.mjs
 ```
 
